@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}待办事项程序{% endblock %}
+
+{% block content %}
+  <!--导航-->
+<div id="navigation" class="container-fluid">
+  <nav class="navbar navbar-default ">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-th-list"></span>TODO</a>
+    </div>
+  </nav>
+</div>
+
+
+  <!-- 添加todo表单-->
+<div id="todo-add" class="container">
+  <form action="{{ url_for('add') }}"method="post"class="form-inline float-right">
+    <textarea rows=3 cols=50 placeholder="请输入代办事项"name="content"></textarea>
+    <button type="submit"class="btn btn-success btn-lg" style="height: 50px;">添加</button>
+  </form>
+</div>
+
+  <div class="divider"></div>
+<!--表单-->
+<div id="todo-list" class="container">
+  <table class="table table-striped">
+    <th>
+      <td>状态</td>
+      <td>内容</td>
+      <td>删除</td>
+      <td>完成</td>
+    </th>
+    {% for todo in todo_list %}
+      <tr>
+        <td>{{loop.index}}</td>
+        {% if todo.status == 0 %}
+          <td><span class="glyphicon glyphicon-asterisk btn-warning"></span></td>
+        {% elif todo.status == 1 %}
+          <td><span class="glyphicon glyphicon-asterisk btn-success"></span></td>
+        {% endif %}
+        <td>{{ todo.content}}</td>
+        <td><a href="{{ url_for('delete',_id=todo._id) }}"><span class="glyphicon glyphicon-remove"></span></a></td>
+        <td><a href="{{ url_for('finish',_id=todo._id) }}"><span class="glyphicon glyphicon-ok"></span></a></td>
+{#          {{ todo_id }}#}
+      </tr>
+  {% endfor %}
+  </table>
+</div>
+{% endblock  %}
